@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>博客管理</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}" media="all"/>
+    <link rel="stylesheet" th:href="@{/admin/css/public.css}" media="all"/>
+</head>
+<body class="childrenBody">
+<form class="layui-form">
+    <blockquote class="layui-elem-quote quoteBox" style="border-left: 5px solid #f2f2f2">
+        <form class="layui-form">
+            <div class="layui-inline">
+                <div class="layui-input-inline">
+                    <input type="text" class="layui-input searchVal" placeholder="请输入搜索的内容"/>
+                </div>
+                <a class="layui-btn search_btn" data-type="reload">搜索</a>
+            </div>
+            <div class="layui-inline">
+                <a class="layui-btn layui-btn-normal addNews_btn" data-url="addBlog"><cite>添加博客</cite></a>
+
+            </div>
+            <div class="layui-inline">
+                <a class="layui-btn layui-btn-danger layui-btn-normal delAll_btn">批量删除</a>
+            </div>
+        </form>
+    </blockquote>
+    <!--<table id="newsList" lay-filter="newsList"></table>-->
+    <div class="layui-form layui-border-box layui-table-view" lay-filter="LAY-table-1"
+         style="height: 195px;">
+        <div class="layui-table-box">
+            <div class="layui-table-header">
+                <table cellspacing="0" cellpadding="0" border="0" class="layui-table">
+                    <thead>
+                    <tr>
+                        <th data-field="0" data-unresize="true" style="width: 3%">
+                            <div class="layui-table-cell laytable-cell-1-0 laytable-cell-checkbox">
+                                <input type="checkbox" name="layTableCheckbox" lay-skin="primary"
+                                       lay-filter="layTableAllChoose" >
+                                <div class="layui-unselect layui-form-checkbox" lay-skin="primary">
+                                    <i class="layui-icon"></i></div>
+                            </div>
+                        </th>
+                        <th data-field="newsId" style="width: 3%">
+                            <div class="layui-table-cell laytable-cell-1-newsId" align="center">
+                                <span>ID</span></div>
+                        </th>
+                        <th data-field="newsName" style="width: 34%;text-align:center">
+                            <div class="layui-table-cell laytable-cell-1-newsName"><span>文章标题</span>
+                            </div>
+                        </th>
+                        <th data-field="newsAuthor" style="width: 15%">
+                            <div class="layui-table-cell laytable-cell-1-newsAuthor" align="center">
+                                <span>作者</span></div>
+                        </th>
+                        <th data-field="newsTime"  style="width: 20%" >
+                            <div class="layui-table-cell laytable-cell-1-newsTime" align="center" >
+                                <span>发布时间</span></div>
+                        </th>
+                        <th data-field="show" style="width: 10%">
+                            <div class="layui-table-cell laytable-cell-1-newsTop" align="center">
+                                <span>是否展示</span></div>
+                        </th>
+
+                        <th data-field="8" style="width: 15%">
+                            <div class="layui-table-cell laytable-cell-1-8" align="center">
+                                <span>操作</span></div>
+                        </th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+
+
+            <div class="layui-table-body layui-table-main" style="height: 114px;">
+                <table cellspacing="0" cellpadding="0" border="0" class="layui-table">
+                    <tbody>
+                    <tr data-index="0" class="" th:each="article : ${articles}">
+                        <td data-field="0" style="width: 3%">
+                            <div class="layui-table-cell laytable-cell-1-0 laytable-cell-checkbox">
+                                <input type="checkbox" name="layTableCheckbox" lay-skin="primary">
+                                <div class="layui-unselect layui-form-checkbox" lay-skin="primary">
+                                    <i class="layui-icon"></i></div>
+                            </div>
+                        </td>
+                        <td data-field="newsId" align="center" style="width: 3%">
+                            <div class="layui-table-cell laytable-cell-1-newsId">[[${article.articleId}]]</div>
+                        </td>
+                        <td data-field="newsName" style="width: 34%;text-align:center">
+                            <div class="layui-table-cell laytable-cell-1-newsName">
+                               [[${article.articleTitle}]]
+                            </div>
+                        </td>
+                        <td data-field="newsAuthor" align="center" style="width: 15%">
+                            <div class="layui-table-cell laytable-cell-1-newsAuthor">[[${article.author}]]</div>
+                        </td>
+                        <td data-field="newsStatus" align="center" data-content="0" style="width: 20%">
+                            <div class="layui-table-cell laytable-cell-1-newsTime"><span
+                                    >[[${article.createTime}]]</span></div>
+                        </td>
+
+                        <td data-field="show" align="center" data-content="" style="width: 10%">
+                            <div class="layui-table-cell laytable-cell-1-newsTop">
+                                <input
+                                    type="checkbox" name="show" lay-filter="show"
+                                    lay-skin="switch" lay-text="是|否" checked>
+                                <div class="layui-unselect layui-form-switch" lay-skin="_switch">
+                                    <em>是</em><i></i></div>
+                            </div>
+                        </td>
+                        <td data-field="8" align="center" data-content="" style="width: 15%">
+                            <div class="layui-table-cell laytable-cell-1-8"><a
+                                    class="layui-btn layui-btn-xs" lay-event="edit">编辑</a> <a
+                                    class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
+                                <a class="layui-btn layui-btn-xs layui-btn-primary"
+                                   lay-event="look">预览</a></div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="layui-table-fixed layui-table-fixed-l">
+                <div class="layui-table-header">
+                    <table cellspacing="0" cellpadding="0" border="0" class="layui-table">
+                        <thead>
+                        <tr>
+                            <th data-field="0" data-unresize="true">
+                                <div class="layui-table-cell laytable-cell-1-0 laytable-cell-checkbox">
+                                    <input type="checkbox" name="layTableCheckbox"
+                                           lay-skin="primary" lay-filter="layTableAllChoose">
+                                    <div class="layui-unselect layui-form-checkbox"
+                                         lay-skin="primary"><i class="layui-icon"></i></div>
+                                </div>
+                            </th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+        <div class="layui-table-page">
+            <div id="layui-table-page1">
+                <div class="layui-box layui-laypage layui-laypage-default" id="layui-laypage-1"><a
+                        href="javascript:;" class="layui-laypage-prev layui-disabled" data-page="0"><i
+                        class="layui-icon"></i></a><span class="layui-laypage-curr"><em
+                        class="layui-laypage-em"></em><em>1</em></span><a href="javascript:;"
+                                                                          class="layui-laypage-next layui-disabled"
+                                                                          data-page="2"><i
+                        class="layui-icon"></i></a><span class="layui-laypage-skip">到第<input
+                        type="text" min="1" value="1" class="layui-input">页<button type="button"
+                                                                                   class="layui-laypage-btn">确定</button></span><span
+                        class="layui-laypage-count">共 15 条</span><span class="layui-laypage-limits"><select
+                        lay-ignore=""><option value="10">10 条/页</option><option
+                        value="15">15 条/页</option><option value="20" selected="">20 条/页</option><option
+                        value="25">25 条/页</option></select></span></div>
+            </div>
+        </div>
+        <style>
+            .laytable-cell-1-0 {
+                width: 50px;
+                margin: 0 auto;
+            }
+
+            .laytable-cell-1-newsId {
+                width: 60px;
+                margin: 0 auto;
+            }
+
+            .laytable-cell-1-newsName {
+                width: 350px;
+                margin: 0 auto;
+            }
+
+            .laytable-cell-1-newsAuthor {
+                width: 115px;
+                margin: 0 auto;
+            }
+
+            .laytable-cell-1-newsTop {
+                width: 115px;
+                margin: 0 auto;
+            }
+
+            .laytable-cell-1-newsTime {
+                width: 170px;
+                margin: 0 auto;
+            }
+
+            .laytable-cell-1-8 {
+                width: 170px;
+                margin: 0 auto;
+            }</style>
+    </div>
+
+</form>
+<script type="text/javascript" th:src="@{/layui/layui.js}"></script>
+<script type="text/javascript" th:src="@{/admin/js/blogList.js}"></script>
+
+</body>
+</html>

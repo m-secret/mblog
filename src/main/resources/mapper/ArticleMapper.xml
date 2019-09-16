@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="club.msecret.mblog.mapper.ArticleMapper">
+    <insert id="addArticle" parameterType="club.msecret.mblog.entity.Article">
+        insert into article(articleId, articleTitle, outline, articleContent, publishTime, status) VALUES
+            (#{articleId},#{articleTitle},#{outline},#{articleContent},#{createTime},#{status})
+    </insert>
+
+    <update id="hideBlog" parameterType="long">
+        update article set status = 0 where articleId=#{value}
+    </update>
+
+    <update id="showBlog" parameterType="long">
+        update article set status = 1 where articleId=#{value}
+    </update>
+
+    <delete id="deleteArticleById" parameterType="long">
+        delete from article where articleId=#{value}
+    </delete>
+
+    <delete id="deleteArticleTagsByArticleId" parameterType="long">
+        delete from tagsOfArticle where articleId=#{value}
+    </delete>
+
+    <delete id="deleteArticleCategoryByArticleId" parameterType="long">
+        delete from categoryOfArticle where articleId=#{value}
+    </delete>
+
+    <select id="findAllArticles" resultType="club.msecret.mblog.entity.Article">
+        SELECT a.*,c.cName from article as a, category as c, categoryOfArticle as ca
+          WHERE a.articleId = ca.articleId and c.cid = ca.cid order by a.id desc
+    </select>
+
+    <select id="searchArticles" parameterType="java.lang.String"
+        resultType="club.msecret.mblog.entity.Article">
+        select * from article where articleTile like CONCAT(CONCAT('%', #{value}), '%')
+    </select>
+
+    <select id="findArticleIdByTagId" parameterType="Integer" resultType="long">
+        select articleId from tagsOfArticle where tagId = #{value}
+    </select>
+
+    <select id="findArticleById" parameterType="long"
+        resultType="club.msecret.mblog.entity.Article">
+        SELECT a.*,c.cName from article as a, category as c, categoryOfArticle as ca
+        WHERE a.articleId = ca.articleId and c.cid = ca.cid and a.articleId=#{value}
+    </select>
+
+    <select id="findLastArticleByCurrentId" parameterType="long"
+        resultType="club.msecret.mblog.entity.Article">
+        select * from article where articleId = (
+        select articleId from article where status = 1 and articleId &lt; #{value} order by id desc limit 1)
+    </select>
+
+    <select id="findNextArticleByCurrentId" parameterType="long"
+        resultType="club.msecret.mblog.entity.Article">
+        select * from article where articleId = (select articleId from article where status = 1 and articleId >
+        #{value} order by id asc limit 1)
+    </select>
+
+    <select id="findArticlesByCategoryName" parameterType="string" resultType="club.msecret.mblog.entity.Article">
+        select * from article where  articleId in
+                  (select articleId from categoryOfArticle where cid =  (select cid from category where cName=#{value}))
+                      order by id desc
+    </select>
+    <select id="findArticlesByTagName" resultType="club.msecret.mblog.entity.Article">
+        select * from article where status = 1 AND articleId in
+                  (select articleId from tagsOfArticle where tagId =  (select tagId from tag where tagName =#{value}))
+                      order by id desc
+    </select>
+
+</mapper>

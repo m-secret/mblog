@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="club.msecret.mblog.mapper.ArchiveMapper">
+
+    <select id="findAllYears" resultType="club.msecret.mblog.entity.Archive">
+        SELECT YEAR(publishTime) as year,COUNT(*) as total from article where status = 1 GROUP BY YEAR(publishTime) order by year desc
+    </select>
+    <select id="findArticlesByYear" parameterType="int" resultType="club.msecret.mblog.entity.Article">
+        SELECT a.*,c.cName from article as a, category as c, categoryOfArticle as ca
+          WHERE a.articleId = ca.articleId and c.cid = ca.cid and a.status = 1 and year(publishTime) = #{value} order by a.id desc
+    </select>
+</mapper>

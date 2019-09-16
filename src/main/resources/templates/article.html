@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width"/>
+    <title>文章阅读</title>
+    <link rel="stylesheet" th:href="@{/font-awesome/css/font-awesome.min.css}">
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}"/>
+    <link rel="stylesheet" th:href="@{/css/master.css}"/>
+    <link rel="stylesheet" th:href="@{/css/gloable.css}"/>
+    <link rel="stylesheet" th:href="@{/css/nprogress.css}"/>
+    <link rel="stylesheet" th:href="@{/css/blog.css}"/>
+    <link rel="stylesheet" th:href="@{/layui/css/modules/layui-icon-extend/iconfont.css}">
+    <link rel="stylesheet" th:href="@{/editor/css/editormd.min.css}" />
+    <link rel="stylesheet" th:href="@{/editor/css/editormd.preview.css}" />
+
+    <style type="text/css">
+        .wrapper {
+            width: 100%; /* 也可以固定宽度 */
+        }
+
+        .nav-left {
+            float: left;
+            margin-left: 0.3%;
+            display: inline-block;
+            font-size: 16px;
+            width: 46%;
+        }
+
+        .nav-center {
+            display: inline-block;
+            width: 7%;
+            font-size: 16px;
+        }
+
+        .nav-right {
+            float: right;
+            display: inline-block;
+            width: 46%;
+            font-size: 16px;
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+<div class="header">
+</div>
+<header class="gird-header">
+    <div class="header-fixed">
+        <div class="header-inner">
+            <a href="javascript:void(0)" class="header-logo" id="logo">M_secret</a>
+            <nav class="nav" id="nav">
+                <ul>
+                    <li><a th:href="@{/}">博客</a></li>
+                    <li><a th:href="@{/categories}">分类</a></li>
+                    <li><a th:href="@{/tags}">标签</a></li>
+                    <li><a th:href="@{/archive}">归档</a></li>
+                    <li><a th:href="@{/me}">我</a></li>
+                </ul>
+            </nav>
+            <a th:href="@{/admin/index}" target="_blank" class="blog-user" style="font-size: 20px">
+                m&nbsp&nbsp&nbsp
+            </a>
+            <a class="phone-menu">
+                <i></i>
+                <i></i>
+                <i></i>
+            </a>
+        </div>
+    </div>
+</header>
+<div class="doc-container" id="doc-container">
+    <div class="container-fixed">
+        <div class="col-content" style="width:100%">
+            <div class="inner">
+                <div th:if="${article == null}">
+                    <article class="article-list bloglist" align="center">
+                        <section class="article-item zoomIn article" align="center">
+                            <div class="content" style="background-size:contain;">
+                                <img alt="" style="position: center; width:60%;height:auto;"
+                                     th:src="@{/image/nothing.jpg}"/>
+                            </div>
+                        </section>
+                    </article>
+                </div>
+
+                <article class="article-list" th:if="${article != null}">
+                    <input type="hidden" value="@Model.BlogTypeID" id="blogtypeid"/>
+                    <section class="article-item">
+                        <aside class="title" style="line-height:1.5;">
+                            <h4>[[${article.articleTitle}]]</h4>
+                            <p class="fc-grey fs-14">
+                                <small style="margin-left: 5px;margin-right: 5px" class="m110">
+                                    <span class="iconfont icon-wenjian" style="font-size: 14px"></span>
+                                    <a style="color: #828381" th:href="@{/category(category=${article.cName})}">[[${article.cName}]]</a>
+                                </small>
+
+                                <small>
+                                    作者：[[${article.author}]]
+                                </small>
+
+                                <!-- <small class="ml10">围观群众：<i class="readcount">37</i></small>-->
+                                <small class="ml10" >发布于 <label>[[${article.createTime}]]</label>
+                                </small>
+                                <small class="ml10" th:if="${article.lastEditTime != null}">最近修改于
+                                    <label>[[${article.editTime}]]</label></small>
+                            </p>
+                        </aside>
+                        <div class="time mt10" style="padding-bottom:0;">
+                            <span class="day">22</span>
+                            <span class="month fs-18">5<small class="fs-14">月</small></span>
+                            <span class="year fs-18">2018</span>
+                        </div>
+                        <div class="content artiledetail"o
+                             style="border-bottom: 1px solid #e1e2e0; padding-bottom: 20px;">
+                            <!--[[${article.articleContent}]]-->
+
+                            <div id="contentDiv" style="padding: 0">
+                                <textarea  id="blog_content">[[${article.articleContent}]]</textarea>
+                            </div>
+
+                            <div class="copyright mt20">
+                                <p class="f-toe fc-black">
+                                    非特殊说明，本文版权归 M_secret 所有，转载请注明出处.
+                                </p>
+                                <p class="f-toe">
+                                    本文标题：
+                                    <a href="javascript:void(0)" class="r-title">[[${article.articleTitle}]]</a>
+                                </p>
+                                <p class="f-toe">
+                                    本文网址：
+                                    <a th:href="${#httpServletRequest.getRequestURL()}">[[${#httpServletRequest.getRequestURL()}]]</a>
+                                </p>
+                            </div>
+
+                            <div id="aplayer" style="margin:5px 0"></div>
+                            <aside class="f-oh footer">
+                                <div class="f-fl tags" th:each="tag : ${article.tags}">
+                                    <span>&nbsp;</span>
+                                    <span style="font-size: 12px" class="fa fa-tags fs-16"></span>
+                                    <a class="tag" tyle="font-size: 12px"
+                                       th:href="@{/category/__${tag.tagId}__}">[[${tag.tagName}]]</a>
+                                </div>
+
+                            </aside>
+                            <ol class="b-relation"></ol>
+                        </div>
+
+                        <div class="f-cb"></div>
+                        <aside class="wrapper" style="margin-top: 20px; margin-bottom: 10px">
+                            <div class="nav-left">
+                                <a th:href="${last != null}?    ${last.articleId} : 'javascript:void(0)'">
+                                    <i class="iconfont icon-left" style="font-size: 16px"></i>
+                                    [[${last eq null} ? '没有上一条喽': ${last.articleTitle}]]
+
+                                </a>
+                            </div>
+                            <div class="nav-center" style="text-align: center">
+                                <a th:href="@{/}"><i class="iconfont icon-home"
+                                                     style="font-size: 18px"></i></a>
+                            </div>
+                            <div class="nav-right">
+                                <a th:href="${next eq null} ? 'javascript:void(0)' :  ${next.articleId}">
+                                    [[${next eq null} ? '没有下一条喽': ${next.articleTitle}]]
+
+                                    <i class="iconfont icon-right" style="font-size: 16px"></i>
+                                </a>
+                            </div>
+                        </aside>
+                    </section>
+                </article>
+
+            </div>
+        </div>
+    </div>
+</div>
+<footer class="grid-footer" style="text-align: center">
+    <div style="width: auto;height: 40px;">
+        <div>
+            <a href="https://github.com/m-secret" target="_blank">
+                　　<i class="iconfont icon-github"></i>
+            </a>
+            <a href="https://gitee.com/Zhu_Xinyu" target="_blank">
+                　　<i class="iconfont icon-gitee"></i>
+            </a>
+            <a href="https://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=2576107424@qq.com"
+               title="2576107424@qq.com" target="_blank">
+                　　<i class="iconfont icon-qq"></i>
+            </a>
+
+        </div>
+    </div>
+    <p class="mt05">
+        Copyright &copy; 2019 M_secret All Rights Reserved
+    </p>
+</footer>
+
+<script th:src="@{/layui/layui.js}"></script>
+<script th:src="@{/js/yss/gloable.js}"></script>
+<script th:src="@{/js/plugins/nprogress.js}"></script>
+<script th:src="@{/js/pagecomment.js}"></script>
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/editor/lib/prettify.min.js}"></script>
+<script th:src="@{/editor/lib/marked.min.js}"></script>
+<script th:src="@{/editor/lib/flowchart.min.js}"></script>
+<script th:src="@{/editor/lib/jquery.flowchart.min.js}"></script>
+<script th:src="@{/editor/lib/raphael.min.js}"></script>
+<script th:src="@{/editor/lib/sequence-diagram.min.js}"></script>
+<script th:src="@{/editor/lib/underscore.min.js}"></script>
+
+<script th:src="@{/editor/editormd.js}"></script>
+
+<script>NProgress.start();</script>
+<script>
+    window.onload = function () {
+        NProgress.done();
+    };
+</script>
+
+<script type="text/javascript">
+    $(function() {
+        /**
+         * 解析Markdown
+         * @type {String}
+         */
+        var testEditormdView2;
+        testEditormdView2= editormd.markdownToHTML("contentDiv", {
+            htmlDecode      : "true",  // you can filter tags decode
+            tocm            : true,    // Using [TOCM]
+            emoji           : true,
+            taskList        : true,
+            tex             : true,  // 默认不解析
+            flowChart       : true,  // 默认不解析
+            sequenceDiagram : true,  // 默认不解析
+
+        });
+    });
+</script>
+
+</body>
+</html>

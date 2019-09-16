@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width"/>
+    <meta name="author" content=""/>
+    <meta name="robots" content="all"/>
+    <title>mBlog</title>
+    <link rel="stylesheet" th:href="@{/font-awesome/css/font-awesome.min.css}">
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}"/>
+    <link rel="stylesheet" th:href="@{/css/master.css}"/>
+    <link rel="stylesheet" th:href="@{/css/gloable.css}"/>
+    <link rel="stylesheet" th:href="@{/css/nprogress.css}"/>
+    <link rel="stylesheet" th:href="@{/layui/css/modules/layui-icon-extend/iconfont.css}">
+    <link rel="stylesheet" th:href="@{/css/timeline.css}">
+    <link rel="stylesheet" th:href="@{/css/animate.min.css}">
+    <script>
+        var _hmt = _hmt || [];
+        (function () {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?db61211eab38025ea7cb1aa72611175a";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+    <style>
+        .left {
+            width: 35%;
+            height: 100%;
+            float: left;
+            margin: 10vh auto;
+            text-align: right;
+        }
+
+        .right {
+            width: 65%;
+            height: 100%;
+            margin: 12vh auto;
+            float: left;
+        }
+        ul.ul{
+            margin-right: 40px;padding: 3px;font-size: 18px
+        }
+        ul.ul li{
+            margin: 10px;
+            font-size: 22px;
+        }
+        ul.ul li a{
+            color: #7a7a79;
+            padding-bottom: 1px;
+            border-bottom: 1px solid #7a7a79;
+        }
+        ul.ul li a:hover{
+            color: #23ca83;
+        }
+
+        ul.ul li span {
+            font-size: 18px;
+            color: #9f9f9e;
+        }
+
+        .dbubble {
+            margin-left: 20px;
+            margin-bottom: 10px;
+            background-color: #4defff91;
+            border: 1px solid #dedede;
+            padding: 10px 15px;
+            z-index: 20;
+            border-radius: 8px;
+        }
+
+        .dbubble.dbubble3 {
+            top: 168px;
+            right: -168px;
+            left: 20px;
+            width: 500px;
+            height: 60px;
+        }
+
+
+        .dbubble-text {
+            font-size: 18px;
+            color: #303030;
+            line-height: 1.6;
+
+        }
+
+    </style>
+</head>
+<body>
+<div class="header">
+</div>
+<header class="gird-header">
+    <div class="header-fixed">
+        <div class="header-inner">
+            <a href="javascript:void(0)" class="header-logo" id="logo">M_secret</a>
+            <nav class="nav" id="nav">
+                <ul>
+                    <li><a th:href="@{/}">博客</a></li>
+                    <li><a th:href="@{/categories}">分类</a></li>
+                    <li><a th:href="@{/tags}">标签</a></li>
+                    <li><a th:href="@{/archive}">归档</a></li>
+                    <li><a th:href="@{/me}">我</a></li>
+                </ul>
+            </nav>
+            <a th:href="@{/admin/index}" target="_blank" class="blog-user" style="font-size: 20px">
+                m&nbsp&nbsp&nbsp
+            </a>
+            <a class="phone-menu">
+                <i></i>
+                <i></i>
+                <i></i>
+            </a>
+        </div>
+    </div>
+</header>
+
+<div class="doc-container" id="doc-container">
+    <div class="container-fixed">
+        <div style="margin: 20px; background-color: #fff;min-height: 85vh;height: auto;overflow: auto">
+            <div class="left">
+                <ul class="ul">
+                    <li style="margin-bottom: 20px;font-size: 26px;color: black"><span class="iconfont icon-wenjian" style="font-size: 26px;color: black"></span> 分类</li>
+                    <li th:if="${categories.size()} == 0"><img  alt="" style="position: center; width:70%;height:auto;"
+                                                          th:src="@{/image/nothing.jpg}"/></li>
+                    <li th:each="category:${categories}"><a th:style="${currentCategory == category.CName}? 'color: #02b729;border-color:#02b729' : '' " th:href="@{/categories(category=${category.cName})}">[[${category.cName}]]</a><span> ([[${category.total}]])</span></li>
+                </ul>
+            </div>
+            <div class="right">
+                <ul class="layui-timeline">
+                    <li class="layui-timeline-item">
+                        <i class="iconfont icon-wenjian layui-timeline-axis" style="font-size: 20px"></i>
+                        <div class="layui-timeline-content layui-text">
+                            <h3 class="layui-timeline-title" style="font-size: 20px;margin-left: 10px">[[${currentCategory}]]</h3>
+
+                        </div>
+                    </li>
+                    <img th:if="${articles.size()} == 0" alt="" style="position: center; width:70%;height:auto;"
+                         th:src="@{/image/nothing.jpg}"/>
+                    <li class="layui-timeline-item" th:each="article:${articles}">
+                        <i class="layui-icon layui-timeline-axis"></i>
+                        <div class="layui-timeline-content layui-text">
+                            <div class="dbubble dbubble3">
+                                <div class="dbubble-text"><a style="font-size: 18px;color: #303030;" th:href="@{/blog/__${article.articleId}__}">[[${article.articleTitle}]]</a></div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<footer class="grid-footer" style="text-align: center">
+    <div style="width: auto;height: 40px;">
+        <div>
+            <a href="https://github.com/m-secret" target="_blank">
+                　　<i class="iconfont icon-github"></i>
+            </a>
+            <a href="https://gitee.com/Zhu_Xinyu" target="_blank">
+                　　<i class="iconfont icon-gitee"></i>
+            </a>
+            <a href="https://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=2576107424@qq.com"
+               title="2576107424@qq.com" target="_blank">
+                　　<i class="iconfont icon-qq"></i>
+            </a>
+
+        </div>
+    </div>
+    <p class="mt05">
+        Copyright &copy; 2019 M_secret All Rights Reserved
+    </p>
+</footer>
+<script th:src="@{/layui/layui.js}"></script>
+<script th:src="@{/js/yss/gloable.js}"></script>
+<script th:src="@{/js/plugins/nprogress.js}"></script>
+<script th:src="@{/js/timeline.js}"></script>
+<script>NProgress.start();</script>
+<script>
+    window.onload = function () {
+        NProgress.done();
+    };
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+</body>
+</html>

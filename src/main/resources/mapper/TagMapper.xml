@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="club.msecret.mblog.mapper.TagMapper">
+    <insert id="addTag" parameterType="string">
+        insert into tag(tagName) values (#{value})
+    </insert>
+    <insert id="addTagOfArticle" parameterType="club.msecret.mblog.entity.TagOfArticle">
+        insert into tagsOfArticle(tagId, articleId) values (#{tagId},#{articleId})
+    </insert>
+    <update id="updateTagNameById" parameterType="int">
+        update tag set tagName = #{tagName} where tagId = #{tagId}
+    </update>
+    <delete id="deleteTagById" parameterType="int">
+        delete from tag where tagId = #{value}
+    </delete>
+    <delete id="deteleTagOfArticleByTagId" parameterType="int">
+        delete from tagsOfArticle where tagId = #{value}
+    </delete>
+
+
+    <select id="findAllTags" resultType="club.msecret.mblog.entity.Tag">
+        select * from tag
+    </select>
+    <select id="findTagIdsByArticleId" parameterType="long" resultType="java.lang.Integer">
+        select tagId from tagsOfArticle where articleId = #{value}
+    </select>
+    <select id="findTagById" parameterType="Integer" resultType="club.msecret.mblog.entity.Tag">
+        select * from tag where tagId = #{value}
+    </select>
+    <select id="findTagAmountById" parameterType="int" resultType="java.lang.Integer">
+        select count(*) as total from tagsOfArticle where tagId = #{value}
+    </select>
+
+    <select id="countDisplayArticleOfTag" resultType="club.msecret.mblog.entity.Tag">
+        SELECT tagId, COUNT(*) AS total FROM tagsOfArticle
+            WHERE articleId in (SELECT articleId from article WHERE status = 1) GROUP BY tagId
+    </select>
+</mapper>

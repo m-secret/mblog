@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width"/>
+    <meta name="author" content="www.yanshisan.cn"/>
+    <meta name="robots" content="all"/>
+    <title>me</title>
+
+    <link rel="stylesheet" th:href="@{/font-awesome/css/font-awesome.min.css}">
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}"/>
+    <link rel="stylesheet" th:href="@{/css/master.css}"/>
+    <link rel="stylesheet" th:href="@{/css/gloable.css}"/>
+    <link rel="stylesheet" th:href="@{/css/nprogress.css}"/>
+    <link rel="stylesheet" th:href="@{/layui/css/modules/layui-icon-extend/iconfont.css}">
+    <link rel="stylesheet" th:href="@{/css/timeline.css}">
+    <link rel="stylesheet" th:href="@{/css/animate.min.css}">
+    <link rel="stylesheet" th:href="@{/css/about.css}"/>
+</head>
+<body>
+<div class="header">
+</div>
+<header class="gird-header">
+    <div class="header-fixed">
+        <div class="header-inner">
+            <a href="javascript:void(0)" class="header-logo" id="logo">M_secret</a>
+            <nav class="nav" id="nav">
+                <ul>
+                    <li><a th:href="@{/}">博客</a></li>
+                    <li><a th:href="@{/categories}">分类</a></li>
+                    <li><a th:href="@{/tags}">标签</a></li>
+                    <li><a th:href="@{/archive}">归档</a></li>
+                    <li><a th:href="@{/me}">我</a></li>
+                </ul>
+            </nav>
+            <a th:href="@{/admin/index}" target="_blank" class="blog-user" style="font-size: 20px">
+                m&nbsp&nbsp&nbsp
+            </a>
+            <a class="phone-menu">
+                <i></i>
+                <i></i>
+                <i></i>
+            </a>
+        </div>
+    </div>
+</header>
+<div class="doc-container" id="doc-container">
+    <div class="about-banner" id="container">
+        <header class="l-top hasAnim arrow-holder">
+            <a data-path-hover="M31.3184948,33.1943359 C36.3357454,28.0664371 44.4728686,28.0690462 49.572124,33.2807584 C54.6360745,38.4563871 54.6061839,46.8782889 49.6566817,51.9369454 L31.318494,69.5197703 L49.6566817,89.71735 C54.6739322,94.8452488 54.6713794,103.161825 49.572124,108.373537 C44.5081735,113.549166 36.267997,113.518616 31.3184948,108.459959 L3.8112137,78.891075 C-1.25273677,73.7154463 -1.2880417,65.3601778 3.8112137,60.1484655 L31.3184948,33.1943359 Z">
+                <svg width="0" height="0">
+                    <path fill="#fff"
+                          d="M58.9103319,3.8342148C63.9275825,-1.29368407,72.0647057,-1.29107495,77.1639611,3.92063726C82.2279116,9.09626594,82.198021,17.5181678,77.2485188,22.5768242C77.2485188,22.5768242,31.318494,69.5197703,31.318494,69.5197703C31.318494,69.5197703,77.2485188,116.462716,77.2485188,116.462716C82.2657693,121.590615,82.2632165,129.907191,77.1639611,135.118903C72.1000106,140.294532,63.8598341,140.263982,58.9103319,135.205326C58.9103319,135.205326,3.8112137,78.891075,3.8112137,78.891075C-1.25273677,73.7154463,-1.2880417,65.3601778,3.8112137,60.1484655C3.8112137,60.1484655,58.9103319,3.8342148,58.9103319,3.8342148C58.9103319,3.8342148,58.9103319,3.8342148,58.9103319,3.8342148"></path>
+                </svg>
+            </a>
+            <a data-path-hover="M31.3184948,33.1943359 C36.3357454,28.0664371 44.4728686,28.0690462 49.572124,33.2807584 C54.6360745,38.4563871 54.6061839,46.8782889 49.6566817,51.9369454 L31.318494,69.5197703 L49.6566817,89.71735 C54.6739322,94.8452488 54.6713794,103.161825 49.572124,108.373537 C44.5081735,113.549166 36.267997,113.518616 31.3184948,108.459959 L3.8112137,78.891075 C-1.25273677,73.7154463 -1.2880417,65.3601778 3.8112137,60.1484655 L31.3184948,33.1943359 Z">
+                <svg width="0" height="0">
+                    <path fill="#fff"
+                          d="M58.9103319,3.8342148 C63.9275825,-1.29368407 72.0647057,-1.29107495 77.1639611,3.92063726 C82.2279116,9.09626594 82.198021,17.5181678 77.2485188,22.5768242 L31.318494,69.5197703 L77.2485188,116.462716 C82.2657693,121.590615 82.2632165,129.907191 77.1639611,135.118903 C72.1000106,140.294532 63.8598341,140.263982 58.9103319,135.205326 L3.8112137,78.891075 C-1.25273677,73.7154463 -1.2880417,65.3601778 3.8112137,60.1484655 L58.9103319,3.8342148 Z"></path>
+                </svg>
+            </a>
+        </header>
+        <div class="about-title">
+            <h1>玲珑骰子安红豆，入骨相思知不知</h1>
+        </div>
+    </div>
+    <div class="container-fixed">
+        <div class="container-inner">
+            <article>
+                <section>
+                    <h1>关于我</h1>
+                    <p>
+                        M_secret  大四在校生一枚，喜欢编程，喜欢音乐，喜欢猫
+                    </p>
+                </section>
+                <section>
+                    <h1>关于本站</h1>
+                    <p>
+                        本站建于2019年9月，用于记录学习、记录生活<br/>
+                        前台使用燕十三博客前端模板，后台基于 layuiCMS 2.0 搭建<br>
+                        前端模板：<a href="https://www.yanshisan.cn" target="_blank">https://www.yanshisan.cn</a><br>
+                        后台程序：<a href="http://layuicms.com/v2" target="_blank">http://layuicms.com/v2</a><br>
+                        整站源码：<a href="https://gitee.com/Liu_Cabbage/RightControl_Blog" target="_blank">https://gitee.com/Liu_Cabbage/RightControl_Blog</a>
+
+                    </p>
+                    <span>
+                    本站结构：
+                </span>
+                    <ul>
+                        <li>前 端 ：<code>Layui</code></li>
+                        <li>后 端 ：<code>Spring Boot + MySql</code></li>
+                    </ul>
+
+                </section>
+                <section>
+                    <h1>关于版权</h1>
+                    <p>
+                        本站采用「 <a href="https://creativecommons.org/licenses/by-nc/4.0/deed.zh" target="_blank">署名-非商业性使用 4.0 国际 (CC BY-NC 4.0)</a>」创作共享协议。
+                        只要在使用时注明出处，那么您可以可以对本站所有原创内容进行转载、节选、二次创作，但是您不得对其用于商业目的。
+                    </p>
+                </section>
+            </article>
+        </div>
+    </div>
+</div>
+<footer class="grid-footer" style="text-align: center">
+    <div style="width: auto;height: 40px;">
+        <div>
+            <a href="https://github.com/m-secret" target="_blank">
+                　　<i class="iconfont icon-github"></i>
+            </a>
+            <a href="https://gitee.com/Zhu_Xinyu" target="_blank">
+                　　<i class="iconfont icon-gitee"></i>
+            </a>
+            <a href="https://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=2576107424@qq.com"
+               title="2576107424@qq.com" target="_blank">
+                　　<i class="iconfont icon-qq"></i>
+            </a>
+
+        </div>
+    </div>
+    <p class="mt05">
+        Copyright &copy; 2019 M_secret All Rights Reserved
+    </p>
+</footer>
+<script th:src="@{/layui/layui.js}"></script>
+<script th:src="@{/js/yss/gloable.js}"></script>
+<script th:src="@{/js/plugins/nprogress.js}"></script>
+<script>NProgress.start();</script>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script th:src="@{/js/plugins/blogbenoitboucart.min.js}"></script>
+<script>
+    window.onload = function () {
+        NProgress.done();
+    };
+</script>
+</body>
+</html>

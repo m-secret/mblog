@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>博客管理</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}" media="all"/>
+    <link rel="stylesheet" th:href="@{/admin/css/public.css}" media="all"/>
+    <link rel="stylesheet" th:href="@{/editor/css/editormd.min.css}" />
+    <link rel="stylesheet" th:href="@{/editor/css/editormd.preview.css}" />
+
+</head>
+<body class="childrenBody">
+<input type="hidden" th:value="${cate}" id="ca">
+<form class="layui-form">
+    <blockquote class="layui-elem-quote quoteBox" style="border-left: 5px solid #f2f2f2">
+        <form class="layui-form">
+            <div class="layui-inline">
+                <div class="layui-input-inline">
+                    <select name="modules" lay-verify="required"  lay-filter="chooseCategory">
+                        <option value="">请选择分类</option>
+                        <option  th:each="category :${categories}" th:selected="${cate == category.CName}">[[${category.CName}]]</option>
+                    </select>
+                </div>
+                <a class="layui-btn search_btn"  href="/admin/blogList">重置</a>
+            </div>
+            <div class="layui-inline">
+                <a class="layui-btn layui-btn-normal addNews_btn" data-url="addBlog"><cite>添加博客</cite></a>
+
+            </div>
+            <!--<div class="layui-inline">
+                <a class="layui-btn layui-btn-danger layui-btn-normal delAll_btn">批量删除</a>
+            </div>-->
+        </form>
+    </blockquote>
+
+
+    <table id="blogList" lay-filter="blogList"></table>
+
+    <div id="hiddenPreview" hidden style="padding: 0">
+        <textarea  id="blogContent"></textarea>
+    </div>
+
+
+    <style>
+        .laytable-cell-1-0 {
+            width: 50px;
+            margin: 0 auto;
+        }
+
+        .laytable-cell-1-articleId {
+            width: 60px;
+            margin: 0 auto;
+        }
+
+        .laytable-cell-1-articleTitle {
+            width: 350px;
+            margin: 0 auto;
+        }
+
+        .laytable-cell-1-author {
+            width: 115px;
+            margin: 0 auto;
+        }
+
+        .laytable-cell-1-publishTime {
+            width: 170px;
+            margin: 0 auto;
+        }
+
+        .laytable-cell-1-status {
+            width: 115px;
+            margin: 0 auto;
+        }
+
+        .laytable-cell-1-6 {
+            width: 170px;
+            margin: 0 auto;
+        }
+    </style>
+
+
+    <script type="text/html" id="blogListBar">
+        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+        <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
+        <a class="layui-btn layui-btn-xs layui-btn-primary" lay-event="look">预览</a>
+    </script>
+</form>
+<script type="text/javascript" th:src="@{/layui/layui.js}"></script>
+<script type="text/javascript" th:src="@{/admin/js/blogList.js}"></script>
+
+</body>
+</html>

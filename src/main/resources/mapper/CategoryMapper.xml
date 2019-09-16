@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="club.msecret.mblog.mapper.CategoryMapper">
+    <insert id="addCategory" parameterType="string">
+        insert into category(cName) values (#{value})
+    </insert>
+    <insert id="addCategoryOfArticle" parameterType="club.msecret.mblog.entity.CategoryOfArticle">
+        insert into categoryOfArticle(cid, articleId) values (#{cid},#{articleId})
+    </insert>
+    <update id="updateCategoryNameById" parameterType="club.msecret.mblog.entity.Category">
+        update category set cName = #{cName} where cid = #{cid}
+    </update>
+    <delete id="deteleCategoryOfArticleByCid" parameterType="int">
+        delete from categoryOfArticle where cid = #{value}
+    </delete>
+    <delete id="deleteCategoryById" parameterType="int">
+        delete from category where cid = #{value}
+    </delete>
+
+    <select id="findAllCategories" resultType="club.msecret.mblog.entity.Category">
+        select * from category
+    </select>
+    <select id="findCategoryAmountByCid" parameterType="int" resultType="int">
+        SELECT COUNT(*) as total from categoryOfArticle where cid =#{value}
+    </select>
+    <select id="findCategoryById" parameterType="Integer" resultType="club.msecret.mblog.entity.Category">
+        select * from category where cid=#{value}
+    </select>
+
+    <select id="countDisplayArticleOfCategory"
+        resultType="club.msecret.mblog.entity.Category">
+        SELECT cid, COUNT(*) AS total FROM categoryOfArticle
+              WHERE articleId in (SELECT articleId from article WHERE status = 1) GROUP BY cid
+    </select>
+
+</mapper>
