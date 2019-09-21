@@ -3,14 +3,22 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/myblog?useUnicode=true&characterEncoding=utf-8&serverTimeZone=CTT
+    url: jdbc:mysql://localhost:3306/myblog?useUnicode=true&characterEncoding=utf-8&serverTimeZone=CTT&allowPublicKeyRetrieval=true
     username: root
-    password: Zxy1998.
+    password: Zxy19980608.
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     serialization:
       indent-output: true
     time-zone: GMT+8
+  servlet:
+    multipart:
+      location:
+      enabled: true
+      # 单个文件的最大值
+      max-file-size: 10MB
+      # 上传文件总的最大值
+      max-request-size: 10MB
   #  redis:
 #    database: 9
 #    host: 127.0.0.1

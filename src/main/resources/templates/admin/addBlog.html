@@ -84,7 +84,8 @@
             sequenceDiagram: true,       // 开启时序/序列图支持，默认关闭,
             imageUpload: true,     //开启图片上传
             imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
-            imageUploadURL: "/img/imgUpLoad", //上传的路径，就是mvc的controller路径
+            imageUploadURL: "imgUpload", //上传的路径，就是mvc的controller路径
+
             toolbarIcons: function () {  //自定义工具栏，后面有详细介绍
                 return editormd.toolbarModes['full']; // full, simple, mini
             }
@@ -92,5 +93,6 @@
     }
 
 </script>
+
 </body>
 </html>
