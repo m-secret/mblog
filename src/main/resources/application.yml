@@ -5,7 +5,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/myblog?useUnicode=true&characterEncoding=utf-8&serverTimeZone=CTT&allowPublicKeyRetrieval=true
     username: root
-    password: Zxy19980608.
+    password: root
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     serialization:
