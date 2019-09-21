@@ -1,21 +1,29 @@
 package club.msecret.mblog.controller.admin;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import club.msecret.mblog.entity.Article;
 import club.msecret.mblog.entity.Category;
@@ -25,10 +33,12 @@ import club.msecret.mblog.entity.TagOfArticle;
 import club.msecret.mblog.service.ArticleService;
 import club.msecret.mblog.service.CategoryService;
 import club.msecret.mblog.service.TagService;
+import club.msecret.mblog.utils.QiniuImgUploadUtil;
 import club.msecret.mblog.utils.TimeUtil;
 
 @Controller
 @RequestMapping("/admin")
+@CrossOrigin
 public class BlogManageController {
 
     @Resource
@@ -89,7 +99,8 @@ public class BlogManageController {
     }
 
     @RequestMapping("/addBlog")
-    public ModelAndView addBlog() {
+    public ModelAndView addBlog(HttpServletResponse response) {
+        //response.setHeader("X-Frame-Options","ALLOW-FROM");
         ModelAndView mav = new ModelAndView("admin/addBlog");
         List<Category> categories = categoryService.findAllCategories();
         List<Tag> tags = tagService.findAllTags();
@@ -137,6 +148,34 @@ public class BlogManageController {
             tagService.addTagsOfArticle(toas);
 
         return "success";
+    }
+
+
+    @RequestMapping("/imgUpload")
+    @ResponseBody
+    public JSONObject imgUpdate(HttpServletRequest request, @RequestParam("editormd-image-file") MultipartFile file) throws IOException {
+        InputStream is = new ByteArrayInputStream(file.getBytes());
+
+        //文件名
+        String trueFileName = file.getOriginalFilename();
+        //后缀名
+        String suffix = trueFileName.substring(trueFileName.lastIndexOf("."));
+        //重新命名
+        String fileName = System.currentTimeMillis()  + suffix;
+
+        String result = new QiniuImgUploadUtil().imgUpload(is, fileName);
+
+        JSONObject res = new JSONObject();
+        //res.put("url", path+relativePath + fileName);
+        if (!result.equals("error")) {
+            res.put("success", 1);
+            res.put("message", "upload success!");
+            res.put("url", result);
+        } else {
+            res.put("success", 0);
+            res.put("message", "upload fail!");
+        }
+        return res;
     }
 
 
