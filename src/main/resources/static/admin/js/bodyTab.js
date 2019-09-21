@@ -361,9 +361,8 @@ layui.define(["element","jquery","layer"],function(exports){
             menu.splice((liIndex - 1), 1);
             window.sessionStorage.setItem("menu", JSON.stringify(menu));
         }
-		if($(this).parent('li').find("cite").text() === "添加博客"){
+		if($(this).parent('li').find("cite").text() === "添加博客" || $(this).parent('li').find("cite").text() === "编辑"){
 			var i = $(this).parent("li").attr("lay-id")
-
 
 			layer.confirm('文章还未保存，离开后内容将会丢失', {title:'确认关闭？'}, function(index){
 				layer.close(index)

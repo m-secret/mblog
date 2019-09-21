@@ -26,15 +26,11 @@ public class BlogController {
     @Resource
     private CategoryService categoryService;
 
-    @Resource
-    private TagService tagService;
-
     @RequestMapping("/")
     public ModelAndView BlogIndex() {
         ModelAndView mav = new ModelAndView("index");
         List<Article> articles = articleService.findAll();
         articles.removeIf(article1 -> article1.getStatus() != 1);
-        System.out.println(articles);
         List<Category> categories = categoryService.findAllCategories();
      /*   for (Category ca: categories) {
             ca.setTotal(categoryService.findCategoryAmountByCid(ca.getCid()));

@@ -13,6 +13,10 @@
     <update id="showBlog" parameterType="long">
         update article set status = 1 where articleId=#{value}
     </update>
+    <update id="updateArticle" parameterType="club.msecret.mblog.entity.Article">
+        update article set articleTitle = #{articleTitle},outline = #{outline},articleContent = #{articleContent},
+                           lastEditTime = #{editTime}, status = #{status} where articleId = #{articleId}
+    </update>
 
     <delete id="deleteArticleById" parameterType="long">
         delete from article where articleId=#{value}

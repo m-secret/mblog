@@ -69,22 +69,6 @@ layui.use(['form', 'layer','table'], function () {
 
     })
 
-    //搜索【此功能需要后台配合，所以暂时没有动态效果演示】
-    $(".search_btn").on("click", function () {
-        if ($(".searchVal").val() != '') {
-            table.reload("newsListTable", {
-                page: {
-                    curr: 1 //重新从第 1 页开始
-                },
-                where: {
-                    key: $(".searchVal").val()  //搜索的关键字
-                }
-            })
-        } else {
-            layer.msg("请输入搜索的内容");
-        }
-    });
-
 
     $(".addNews_btn").click(function(){
         parent.addTab($(this));
@@ -116,8 +100,10 @@ layui.use(['form', 'layer','table'], function () {
     table.on('tool(blogList)', function (obj) {
         var layEvent = obj.event,
             data = obj.data;
+
         if (layEvent === 'edit') { //编辑
-            addNews(data);
+            parent.addTab($(this));
+
         } else if (layEvent === 'del') { //删除
             layer.confirm('确定删除此文章？', {icon: 3, title: '提示信息'}, function (index) {
                 $.get("/admin/deleteBlog",{
@@ -145,10 +131,6 @@ layui.use(['form', 'layer','table'], function () {
             });
         }
     });
-
-
-
-
 });
 
 

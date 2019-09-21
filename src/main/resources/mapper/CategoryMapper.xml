@@ -10,6 +10,9 @@
     <update id="updateCategoryNameById" parameterType="club.msecret.mblog.entity.Category">
         update category set cName = #{cName} where cid = #{cid}
     </update>
+    <update id="updateCategoryOfArticleByAid" parameterType="club.msecret.mblog.entity.CategoryOfArticle">
+        update categoryOfArticle set cid = #{cid} where articleId = #{articleId}
+    </update>
     <delete id="deteleCategoryOfArticleByCid" parameterType="int">
         delete from categoryOfArticle where cid = #{value}
     </delete>
@@ -31,6 +34,10 @@
         resultType="club.msecret.mblog.entity.Category">
         SELECT cid, COUNT(*) AS total FROM categoryOfArticle
               WHERE articleId in (SELECT articleId from article WHERE status = 1) GROUP BY cid
+    </select>
+    <select id="findArticleCategoryByArticleId"
+        resultType="club.msecret.mblog.entity.Category">
+        SELECT * from category WHERE cid = (SELECT cid FROM categoryOfArticle WHERE articleId = #{value})
     </select>
 
 </mapper>

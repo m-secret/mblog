@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import club.msecret.mblog.entity.Article;
@@ -49,14 +48,6 @@ public class BlogManageController {
 
     @Resource
     private TagService tagService;
-
-    /*@RequestMapping("/blogList")
-    public ModelAndView blogManage() {
-        ModelAndView mav = new ModelAndView("admin/blogManage");
-        List<Article> articles = articleService.findAll();
-        mav.addObject("articles", articles);
-        return mav;
-    }*/
 
     @RequestMapping("/blogList")
     public ModelAndView blogList(String category) {
@@ -109,6 +100,30 @@ public class BlogManageController {
         return mav;
     }
 
+    @RequestMapping("editBlog")
+    public ModelAndView editBlog(Long articleId) {
+        ModelAndView mav = new ModelAndView("admin/editBlog");
+        List<Tag> tags = tagService.findAllTags();
+        Article article = articleService.findArticleById(articleId);
+
+        List<Tag> tagList = article.getTags();
+        StringBuilder t = new StringBuilder();
+        for (int i =0; i< tagList.size(); i++) {
+            t.append(tagList.get(i).getTagName());
+            if (i < tagList.size() - 1) {
+                t.append(",");
+            }
+        }
+
+        article.setCName(categoryService.findArticleCategoryByArticleId(articleId).getCName());
+        List<Category> categories = categoryService.findAllCategories();
+        mav.addObject("article", article);
+        mav.addObject("categories", categories);
+        mav.addObject("inputTag", t.toString());
+        mav.addObject("tags", tags);
+        return mav;
+    }
+
     @RequestMapping("/deleteBlog")
     @ResponseBody
     public String deleteBlog(Long articleId) {
@@ -150,10 +165,46 @@ public class BlogManageController {
         return "success";
     }
 
+    @PostMapping("/checkEditBlog")
+    @ResponseBody
+    public String checkEditBlog(String articleId,String articleTitle, String outline, String articleContent, String category, String tags, String status,String editTime,int flag) {
+        Article article = new Article();
+        CategoryOfArticle cov = new CategoryOfArticle();
+
+
+        TimeUtil timeUtil = new TimeUtil();
+        article.setArticleId(Long.parseLong(articleId));
+        article.setArticleContent(articleContent);
+        article.setArticleTitle(articleTitle);
+        article.setOutline(outline);
+        article.setStatus(status == null ? 0: 1);
+        article.setLastEditTime(timeUtil.transferStampToTime(editTime));
+
+        cov.setArticleId(Long.parseLong(articleId));
+        cov.setCid(Integer.parseInt(category));
+
+        articleService.updateArticle(article);
+        categoryService.updateCategoryOfArticleByAid(cov);
+
+        if (flag == 1) {
+            tagService.deleteTagOfArticleByAid(Long.parseLong(articleId));
+            List<TagOfArticle> toas = new ArrayList<>();
+            if (!tags.equals("")) {
+                String[] ts = tags.split(",");
+                if (ts.length > 0)
+                    for (String t : ts) toas.add(new TagOfArticle(Integer.parseInt(t), Long.parseLong(articleId)));
+            }
+            if (toas.size() !=0)
+                tagService.addTagsOfArticle(toas);
+        }
+
+        return "success";
+    }
+
 
     @RequestMapping("/imgUpload")
     @ResponseBody
-    public JSONObject imgUpdate(HttpServletRequest request, @RequestParam("editormd-image-file") MultipartFile file) throws IOException {
+    public JSONObject imgUpdate(@RequestParam("editormd-image-file") MultipartFile file) throws IOException {
         InputStream is = new ByteArrayInputStream(file.getBytes());
 
         //文件名

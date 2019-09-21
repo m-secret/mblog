@@ -4,7 +4,8 @@ layui.use(['form','layer','element'], function () {
         $ = layui.jquery;
     form.render();
     var hasSaved = false;
-
+    $("#hiddenCategory").val($("#categorySelect option:selected").attr('title'));
+    var initTags = $("#chooseTags").val();
     window.onbeforeunload = function() {
         if(!hasSaved) {
             return false;
@@ -16,10 +17,13 @@ layui.use(['form','layer','element'], function () {
         hasSaved = true;
     }
 
+
+
     form.on('select(chooseCate)', function(data){
         $("#hiddenCategory").val($("#categorySelect option:selected").attr('title'));
 
     })
+
 
 
     $("#chooseTags").click(function () {
@@ -74,14 +78,20 @@ layui.use(['form','layer','element'], function () {
             layer.alert("内容不能为空，请重新输入",{title:"警告"})
             return
         }
-        $('#articleId').val(new Date().getTime())
+        $('#editTime').val(new Date().getTime())
+        var submitTags  = $("#chooseTags").val();
+        if (initTags === submitTags) {
+            $("#flag").val(0)
+        }else {
+            $("#flag").val(1)
+        }
         layer.confirm('确定提交此文章？', {icon: 3, title: '提示信息'}, function (index) {
             layer.msg("发布成功",{time:500})
             setTimeout(function () {
-                $("#addBlogForm").submit();
+                $("#editBlogForm").submit();
                 var layId = '';
                 $(".layui-tab-title.top_tab li",parent.document).each(function(){
-                    if($(this).find("cite").text() == "添加博客"){
+                    if($(this).find("cite").text() == "编辑"){
                         layId = $(this).attr("lay-id");
                     }
                 })

@@ -24,4 +24,8 @@ public interface CategoryMapper {
     void addCategory(String cName);
 
     void addCategoryOfArticle(CategoryOfArticle cov);
+
+    Category findArticleCategoryByArticleId(Long articleId);
+
+    void updateCategoryOfArticleByAid(CategoryOfArticle cov);
 }

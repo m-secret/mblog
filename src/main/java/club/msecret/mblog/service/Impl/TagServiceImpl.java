@@ -64,4 +64,9 @@ public class TagServiceImpl implements TagService {
         return result;
     }
 
+    @Override
+    public void deleteTagOfArticleByAid(Long articleId) {
+        tagMapper.deleteTagOfArticleBtAid(articleId);
+    }
+
 }

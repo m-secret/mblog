@@ -16,6 +16,9 @@
     <delete id="deteleTagOfArticleByTagId" parameterType="int">
         delete from tagsOfArticle where tagId = #{value}
     </delete>
+    <delete id="deleteTagOfArticleBtAid" parameterType="long">
+        delete from tagsOfArticle where articleId = #{value}
+    </delete>
 
 
     <select id="findAllTags" resultType="club.msecret.mblog.entity.Tag">

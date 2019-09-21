@@ -60,4 +60,14 @@ public class CategoryServiceImpl implements CategoryService {
     public void addCategoryOfArticle(CategoryOfArticle cov) {
         categoryMapper.addCategoryOfArticle(cov);
     }
+
+    @Override
+    public Category findArticleCategoryByArticleId(Long articleId) {
+        return categoryMapper.findArticleCategoryByArticleId(articleId);
+    }
+
+    @Override
+    public void updateCategoryOfArticleByAid(CategoryOfArticle cov) {
+        categoryMapper.updateCategoryOfArticleByAid(cov);
+    }
 }

@@ -22,7 +22,7 @@ public class AdminLoginController {
     @RequestMapping("login")
     public ModelAndView login(HttpSession httpSession) {
         String msg = (String) httpSession.getAttribute("msg");
-        ModelAndView mav = new ModelAndView("/admin/login");
+        ModelAndView mav = new ModelAndView("admin/login");
         if (msg != null) {
             mav.addObject("msg", msg);
         }
@@ -32,7 +32,7 @@ public class AdminLoginController {
     @RequestMapping("/admin/index")
     public ModelAndView index(HttpSession httpSession) {
         String uname = (String) httpSession.getAttribute("uname");
-        ModelAndView mav = new ModelAndView("/admin/index");
+        ModelAndView mav = new ModelAndView("admin/index");
         mav.addObject("uname", uname);
         return mav;
     }

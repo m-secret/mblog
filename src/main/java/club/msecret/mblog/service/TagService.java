@@ -22,4 +22,5 @@ public interface TagService {
 
     Map<Integer, Integer> countDisplayArticleOfTag();
 
+    void deleteTagOfArticleByAid(Long articleId);
 }

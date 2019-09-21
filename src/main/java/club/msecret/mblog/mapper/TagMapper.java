@@ -26,4 +26,6 @@ public interface TagMapper {
     void addTagOfArticle(TagOfArticle t);
 
     List<Tag> countDisplayArticleOfTag();
+
+    void deleteTagOfArticleBtAid(Long articleId);
 }

@@ -36,4 +36,6 @@ public interface ArticleMapper {
     void addArticle(Article article);
 
     List<Article> findArticlesByTagName(String tagName);
+
+    void updateArticle(Article article);
 }

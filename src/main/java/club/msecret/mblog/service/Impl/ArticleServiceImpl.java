@@ -109,6 +109,11 @@ public class ArticleServiceImpl implements ArticleService {
         articleMapper.addArticle(article);
     }
 
+    @Override
+    public void updateArticle(Article article) {
+        articleMapper.updateArticle(article);
+    }
+
 
     private List<Tag> findArticleTagsById(Long articleId) {
         List<Integer> tagIds = tagMapper.findTagIdsByArticleId(articleId);

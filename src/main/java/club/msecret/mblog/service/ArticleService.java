@@ -27,4 +27,6 @@ public interface ArticleService {
     void deleteBlogById(Long articleId);
 
     void addArticle(Article article);
+
+    void updateArticle(Article article);
 }
